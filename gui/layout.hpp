@@ -87,16 +87,37 @@ namespace GUI
 
     void setText(const std::string& name, const std::string& caption)
     {
-      MyGUI::WidgetPtr pt;
-      getWidget(pt, name);
-      pt->setCaption(caption);
+        MyGUI::WidgetPtr pt;
+        getWidget(pt, name);
+        setText(pt, caption);
+    }
+
+    void setText(const MyGUI::WidgetPtr pt, const std::string& caption)
+    {
+        MyGUI::TextBox *theTextBox = dynamic_cast<MyGUI::TextBox*>(pt);
+        if(theTextBox)
+        {
+            theTextBox->setCaption(caption);
+        }
+        else
+        {
+            MyGUI::Button *theButton = dynamic_cast<MyGUI::Button*>(pt);
+            if(theButton)
+            {
+                theButton->setCaption(caption);
+            }
+            else
+            {
+                std::cout << "OpenEngine setText: Unknown widget type..." << std::endl;
+            }
+        }
     }
 
     void setTextColor(const std::string& name, float r, float g, float b)
     {
       MyGUI::WidgetPtr pt;
       getWidget(pt, name);
-      MyGUI::StaticText *st = dynamic_cast<MyGUI::StaticText*>(pt);
+      MyGUI::TextBox *st = dynamic_cast<MyGUI::TextBox*>(pt);
       if(st != NULL)
         st->setTextColour(MyGUI::Colour(b,g,r));
     }
